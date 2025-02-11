@@ -1,0 +1,6 @@
+name: CLXGeyserBandaid
+version: '1.0-SNAPSHOT'
+main: gg.corn.CLXGeyserBandaid.CLXGeyserBandaid
+api-version: '1.21'
+depend: [CombatLogX]
+description: Blocks firework rocket flight boosts for players in combat.
