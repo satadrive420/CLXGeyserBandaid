@@ -19,12 +19,16 @@ repositories {
         name = 'sirblobman-public'
         url = 'https://nexus.sirblobman.xyz/public/'
     }
+    maven {
+        url = uri("https://repo.opencollab.dev/main/")
+    }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("com.github.sirblobman.api:core:2.9-SNAPSHOT")
     compileOnly("com.github.sirblobman.combatlogx:api:11.4-SNAPSHOT")
+    compileOnly('org.geysermc.floodgate:api:2.2.3-SNAPSHOT')
 }
 
 def targetJavaVersion = 21

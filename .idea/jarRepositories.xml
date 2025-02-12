@@ -31,5 +31,15 @@
       <option name="name" value="sirblobman-public" />
       <option name="url" value="https://nexus.sirblobman.xyz/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://maven.geysermc.org/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://repo.opencollab.dev/main/" />
+    </remote-repository>
   </component>
 </project>
