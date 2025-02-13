@@ -2,7 +2,8 @@ name: CLXGeyserBandaid
 version: '1.0-SNAPSHOT'
 main: gg.corn.CLXGeyserBandaid.CLXGeyserBandaid
 api-version: '1.21'
-softdepend:
+depend:
+  - CombatLogX
+  - Floodgate
   - Paper
-depend: [CombatLogX]
-description: Blocks firework rocket flight boosts for players in combat.
+description: Blocks elytra flight for Bedrock players connected through Floodgate.
