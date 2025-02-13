@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'gg.corn'
-version = '1.0-refactor'
+version = '1.0'
 
 repositories {
     mavenCentral()
