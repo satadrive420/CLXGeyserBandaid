@@ -1,0 +1,5 @@
+# CLXGeyserBandaid configuration
+
+# If true, both Java and Floodgate players will be targeted.
+# If false, only Floodgate players (Bedrock clients) will be targeted.
+target-java: false
