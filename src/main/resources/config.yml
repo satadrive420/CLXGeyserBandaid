@@ -3,3 +3,9 @@
 # If true, both Java and Floodgate players will be targeted.
 # If false, only Floodgate players (Bedrock clients) will be targeted.
 target-java: false
+
+# CLXGeyserBandaid Modes
+# While a player is in combat, which elytras should we target?
+# Mode: 1 - Break/restore the elytra in the chestplate slot.
+# Mode: 2 - Break/restore all elytras in the player's inventory
+mode: 1
