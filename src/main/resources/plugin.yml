@@ -4,4 +4,5 @@ main: gg.corn.CLXGeyserBandaid.CLXGeyserBandaid
 api-version: '1.21'
 depend:
   - CombatLogX
+  - Floodgate
 description: Blocks elytra flight for Bedrock players connected through Floodgate.
