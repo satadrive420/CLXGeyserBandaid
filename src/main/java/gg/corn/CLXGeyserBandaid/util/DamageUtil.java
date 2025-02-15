@@ -35,39 +35,31 @@ public class DamageUtil {
         return item != null && item.getType() == Material.ELYTRA;
     }
 
-    public static boolean disableElytra(ItemStack item) {
+    public static boolean setDisabledDamage(ItemStack item) {
         if (!isElytra(item)) return false;
         Damageable dmgMeta = getDamageableMeta(item);
         if (dmgMeta == null) return false;
-        // Only store original damage if not already stored and the item isn't already disabled.
         if (dmgMeta.getDamage() != DISABLED_DAMAGE) {
-            storeDamageValue(item, dmgMeta.getDamage());
+            storeOriginalDamage(item, dmgMeta.getDamage());
             dmgMeta.setDamage(DISABLED_DAMAGE);
-            item.setItemMeta((ItemMeta) dmgMeta);
+            item.setItemMeta(dmgMeta);
             return true;
         }
         return false;
     }
 
-    /**
-     * Automatically retrieves the stored original damage from the item's PersistentDataContainer
-     * and restores the Elytra to that value.
-     */
-    public static boolean restoreElytra(ItemStack item) {
+    public static boolean setOriginalDamage(ItemStack item) {
         if (!isElytra(item)) return false;
         Damageable dmgMeta = getDamageableMeta(item);
         if (dmgMeta == null) return false;
-        // Retrieve the stored original damage value from the PersistentDataContainer.
         int storedDamage = getOriginalDamage(item);
-        if (storedDamage < 0) return false; // No stored damage found.
-        Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] Restoring Elytra with stored original damage "
-                + storedDamage + " for Elytra: " + item);
+        if (storedDamage < 0) return false;
         dmgMeta.setDamage((short) storedDamage);
-        item.setItemMeta((ItemMeta) dmgMeta);
+        item.setItemMeta(dmgMeta);
         return true;
     }
 
-    public static void storeDamageValue(ItemStack item, int damage) {
+    public static void storeOriginalDamage(ItemStack item, int damage) {
         if (!isElytra(item) || damageValueKey == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
@@ -75,11 +67,6 @@ public class DamageUtil {
         if (!container.has(damageValueKey, PersistentDataType.INTEGER)) {
             container.set(damageValueKey, PersistentDataType.INTEGER, damage);
             item.setItemMeta(meta);
-            Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] Stored original damage " + damage
-                    + " for Elytra: " + item);
-        } else {
-            Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] Original damage already stored for Elytra: "
-                    + item);
         }
     }
 
@@ -89,23 +76,18 @@ public class DamageUtil {
         if (meta == null) return -1;
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if (container.has(damageValueKey, PersistentDataType.INTEGER)) {
-            int stored = container.get(damageValueKey, PersistentDataType.INTEGER);
-            Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] Retrieved stored original damage " + stored
-                    + " for Elytra: " + item);
-            return stored;
+            Integer stored = container.get(damageValueKey, PersistentDataType.INTEGER);
+            return stored != null ? stored : -1;
         }
-        Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] No stored original damage found for Elytra: "
-                + item);
         return -1;
     }
 
-    public static void removeOriginalDamage(ItemStack item) {
+    public static void clearOriginalDamage(ItemStack item) {
         if (!isElytra(item) || damageValueKey == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.remove(damageValueKey);
         item.setItemMeta(meta);
-        Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] Removed stored original damage for Elytra: " + item);
     }
 }

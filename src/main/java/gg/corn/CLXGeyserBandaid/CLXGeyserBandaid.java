@@ -16,6 +16,7 @@ public class CLXGeyserBandaid extends JavaPlugin {
     public void onEnable() {
         // Initialize DamageUtil (sets up the NamespacedKey for NBT storage)
         DamageUtil.init(this);
+        new PlayerManager(this);
 
         saveDefaultConfig();
 
@@ -36,10 +37,10 @@ public class CLXGeyserBandaid extends JavaPlugin {
         }
 
         // Initialize the ElytraManager (no external data manager is needed).
-        elytraManager = new ElytraManager(this);
+        elytraManager = new ElytraManager();
 
         // Register listeners.
-        Bukkit.getPluginManager().registerEvents(new CombatListener(this, combatLogX, elytraManager), this);
+        Bukkit.getPluginManager().registerEvents(new CombatListener(this, elytraManager), this);
         Bukkit.getPluginManager().registerEvents(new InventoryListener(this, combatLogX, elytraManager), this);
 
         getLogger().info("CLXGeyserBandaid has been enabled successfully!");
@@ -51,12 +52,13 @@ public class CLXGeyserBandaid extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()) {
             for (ItemStack item : player.getInventory().getContents()) {
                 if (DamageUtil.isElytra(item)) {
-                    if (DamageUtil.restoreElytra(item)) {
+                    if (DamageUtil.setOriginalDamage(item)) {
                         // If restoration is successful, remove the stored NBT data.
-                        DamageUtil.removeOriginalDamage(item);
+                        DamageUtil.clearOriginalDamage(item);
                     }
                 }
             }
         }
+        getLogger().info("CLXGeyserBandaid has been disabled successfully!");
     }
 }
