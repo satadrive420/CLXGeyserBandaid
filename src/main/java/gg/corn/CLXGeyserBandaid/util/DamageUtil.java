@@ -13,10 +13,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class DamageUtil {
 
     public static final short DISABLED_DAMAGE = 432;
-    private static NamespacedKey originalDamageKey;
+    private static NamespacedKey damageValueKey;
 
     public static void init(JavaPlugin plugin) {
-        originalDamageKey = new NamespacedKey(plugin, "original_damage");
+        damageValueKey = new NamespacedKey(plugin, "original_damage");
     }
 
     public static Damageable getDamageableMeta(ItemStack item) {
@@ -41,7 +41,7 @@ public class DamageUtil {
         if (dmgMeta == null) return false;
         // Only store original damage if not already stored and the item isn't already disabled.
         if (dmgMeta.getDamage() != DISABLED_DAMAGE) {
-            storeOriginalDamage(item, dmgMeta.getDamage());
+            storeDamageValue(item, dmgMeta.getDamage());
             dmgMeta.setDamage(DISABLED_DAMAGE);
             item.setItemMeta((ItemMeta) dmgMeta);
             return true;
@@ -67,13 +67,13 @@ public class DamageUtil {
         return true;
     }
 
-    public static void storeOriginalDamage(ItemStack item, int damage) {
-        if (!isElytra(item) || originalDamageKey == null) return;
+    public static void storeDamageValue(ItemStack item, int damage) {
+        if (!isElytra(item) || damageValueKey == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        if (!container.has(originalDamageKey, PersistentDataType.INTEGER)) {
-            container.set(originalDamageKey, PersistentDataType.INTEGER, damage);
+        if (!container.has(damageValueKey, PersistentDataType.INTEGER)) {
+            container.set(damageValueKey, PersistentDataType.INTEGER, damage);
             item.setItemMeta(meta);
             Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] Stored original damage " + damage
                     + " for Elytra: " + item);
@@ -84,12 +84,12 @@ public class DamageUtil {
     }
 
     public static int getOriginalDamage(ItemStack item) {
-        if (!isElytra(item) || originalDamageKey == null) return -1;
+        if (!isElytra(item) || damageValueKey == null) return -1;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return -1;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        if (container.has(originalDamageKey, PersistentDataType.INTEGER)) {
-            int stored = container.get(originalDamageKey, PersistentDataType.INTEGER);
+        if (container.has(damageValueKey, PersistentDataType.INTEGER)) {
+            int stored = container.get(damageValueKey, PersistentDataType.INTEGER);
             Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] Retrieved stored original damage " + stored
                     + " for Elytra: " + item);
             return stored;
@@ -100,11 +100,11 @@ public class DamageUtil {
     }
 
     public static void removeOriginalDamage(ItemStack item) {
-        if (!isElytra(item) || originalDamageKey == null) return;
+        if (!isElytra(item) || damageValueKey == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        container.remove(originalDamageKey);
+        container.remove(damageValueKey);
         item.setItemMeta(meta);
         Bukkit.getLogger().info("[CLXGeyserBandaid DEBUG] Removed stored original damage for Elytra: " + item);
     }

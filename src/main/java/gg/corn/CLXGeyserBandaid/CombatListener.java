@@ -4,15 +4,12 @@ import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
-import gg.corn.CLXGeyserBandaid.util.DamageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.geysermc.floodgate.api.FloodgateApi;
 
@@ -31,30 +28,10 @@ public class CombatListener implements Listener {
         this.mode = plugin.getConfig().getInt("mode", 1);
     }
 
-    @EventHandler
-    public void onPlayerTag(PlayerTagEvent event) {
-        Player player = event.getPlayer();
-        if (!shouldTarget(player)) return;
-        // Iterate over the player's entire inventory.
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (DamageUtil.isElytra(item)) {
-                Damageable dmgMeta = DamageUtil.getDamageableMeta(item);
-                if (dmgMeta != null && dmgMeta.getDamage() != DamageUtil.DISABLED_DAMAGE) {
-                    // This will store the original damage if not already stored.
-                    DamageUtil.storeOriginalDamage(item, dmgMeta.getDamage());
-                }
-            }
-        }
-        // Also, for good measure, store the chestplate if it's an Elytra.
-        ItemStack chestplate = player.getInventory().getChestplate();
-        if (DamageUtil.isElytra(chestplate)) {
-            Damageable dmgMeta = DamageUtil.getDamageableMeta(chestplate);
-            if (dmgMeta != null && dmgMeta.getDamage() != DamageUtil.DISABLED_DAMAGE) {
-                DamageUtil.storeOriginalDamage(chestplate, dmgMeta.getDamage());
-            }
-        }
-    }
+    // Turns out onPlayerTag works for what we're trying to do after all.
+    // Probably don't need the events below.
 
+        /*
     @EventHandler
     public void onEntityToggleGlide(EntityToggleGlideEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
@@ -71,6 +48,16 @@ public class CombatListener implements Listener {
         if (!combatLogX.getCombatManager().isInCombat(player)) return;
         elytraManager.disableElytras(player, mode);
     }
+        */
+
+    @EventHandler
+    public void onPlayerTag(PlayerTagEvent event) {
+        Player player = event.getPlayer();
+        if (!shouldTarget(player)) return;
+        //ElytraManager.storeOriginalDamage(player);
+        elytraManager.disableElytras(player, mode);
+
+    }
 
     @EventHandler
     public void onPlayerUntag(PlayerUntagEvent event) {
@@ -80,10 +67,7 @@ public class CombatListener implements Listener {
         Bukkit.getScheduler().runTaskLater(plugin, () -> elytraManager.restoreElytras(player, mode), 2L);
     }
 
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        // No global per-player data is used now.
-    }
+    //todo: move shouldTarget and isBedrockPlayer into their own class
 
     private boolean shouldTarget(Player player) {
         boolean targetJava = plugin.getConfig().getBoolean("target-java", false);

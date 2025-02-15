@@ -3,6 +3,7 @@ package gg.corn.CLXGeyserBandaid;
 import gg.corn.CLXGeyserBandaid.util.DamageUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ElytraManager {
@@ -11,23 +12,45 @@ public class ElytraManager {
         // No external data manager needed since we use persistent data on each item.
     }
 
+    public static void storeOriginalDamage(Player player){
+        // Iterate over the player's entire inventory.
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (DamageUtil.isElytra(item)) {
+                Damageable dmgMeta = DamageUtil.getDamageableMeta(item);
+                if (dmgMeta != null && dmgMeta.getDamage() != DamageUtil.DISABLED_DAMAGE) {
+                    // This will store the original damage if not already stored.
+                    DamageUtil.storeDamageValue(item, dmgMeta.getDamage());
+                }
+            }
+        }
+        // Also, for good measure, store the chestplate if it's an Elytra.
+        ItemStack chestplate = player.getInventory().getChestplate();
+        if (DamageUtil.isElytra(chestplate)) {
+            Damageable dmgMeta = DamageUtil.getDamageableMeta(chestplate);
+            if (dmgMeta != null && dmgMeta.getDamage() != DamageUtil.DISABLED_DAMAGE) {
+                DamageUtil.storeDamageValue(chestplate, dmgMeta.getDamage());
+            }
+        }
+    }
+
     public void disableElytras(Player player, int mode) {
+        storeOriginalDamage(player);
         if (mode == 2) {
-            disableAllElytras(player);
+            disableAllInventoryElytras(player);
         } else {
-            disableChestplate(player);
+            disableChestplateSlotElytra(player);
         }
     }
 
     public void restoreElytras(Player player, int mode) {
         if (mode == 2) {
-            restoreAllElytras(player);
+            restoreAllInventoryElytras(player);
         } else {
-            restoreChestplate(player);
+            restoreChestplateSlotElytra(player);
         }
     }
 
-    private void disableChestplate(Player player) {
+    private void disableChestplateSlotElytra(Player player) {
         ItemStack chestplate = player.getInventory().getChestplate();
         if (DamageUtil.isElytra(chestplate)) {
             if (DamageUtil.disableElytra(chestplate)) {
@@ -36,7 +59,7 @@ public class ElytraManager {
         }
     }
 
-    private void disableAllElytras(Player player) {
+    private void disableAllInventoryElytras(Player player) {
         boolean anyDisabled = false;
         for (int i = 0; i < player.getInventory().getSize(); i++) {
             ItemStack item = player.getInventory().getItem(i);
@@ -51,7 +74,7 @@ public class ElytraManager {
         }
     }
 
-    private void restoreChestplate(Player player) {
+    private void restoreChestplateSlotElytra(Player player) {
         ItemStack chestplate = player.getInventory().getChestplate();
         if (DamageUtil.isElytra(chestplate)) {
             if (DamageUtil.restoreElytra(chestplate)) {
@@ -73,7 +96,7 @@ public class ElytraManager {
         }
     }
 
-    private void restoreAllElytras(Player player) {
+    private void restoreAllInventoryElytras(Player player) {
         boolean restoredAny = false;
         for (int i = 0; i < player.getInventory().getSize(); i++) {
             ItemStack item = player.getInventory().getItem(i);
@@ -88,4 +111,5 @@ public class ElytraManager {
             player.sendMessage("§aAll your Elytras have been restored.");
         }
     }
+
 }
