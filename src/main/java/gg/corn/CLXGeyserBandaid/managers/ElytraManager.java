@@ -1,28 +1,37 @@
-package gg.corn.CLXGeyserBandaid;
+package gg.corn.CLXGeyserBandaid.managers;
 
 import gg.corn.CLXGeyserBandaid.util.DamageUtil;
 import org.bukkit.entity.Player;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
+import java.util.List;
+
 public class ElytraManager {
 
+    private static ElytraManager instance;
+
     public ElytraManager() {
-        // No external data manager needed since we use persistent data on each item.
+        instance = this;
     }
 
+    public static ElytraManager getInstance(){
+        return instance;
+    }
+
+
     public static void storeOriginalDamage(Player player){
-        // Iterate over the player's entire inventory.
+        // Store the current damage value of all elytras in the players inventory
         for (ItemStack item : player.getInventory().getContents()) {
             if (DamageUtil.isElytra(item)) {
                 Damageable dmgMeta = DamageUtil.getDamageableMeta(item);
                 if (dmgMeta != null && dmgMeta.getDamage() != DamageUtil.DISABLED_DAMAGE) {
-                    // This will store the original damage if not already stored.
                     DamageUtil.storeOriginalDamage(item, dmgMeta.getDamage());
                 }
             }
         }
-        // Also, for good measure, store the chestplate if it's an Elytra.
+        // Store the current damage value of all elytras in the chestplate slot
         ItemStack chestplate = player.getInventory().getChestplate();
         if (DamageUtil.isElytra(chestplate)) {
             Damageable dmgMeta = DamageUtil.getDamageableMeta(chestplate);
@@ -32,8 +41,7 @@ public class ElytraManager {
         }
     }
 
-
-
+    // Break all elytras in the players inventory
     public void disableElytras(Player player) {
         storeOriginalDamage(player);
         boolean anyDisabled = false;
@@ -50,6 +58,7 @@ public class ElytraManager {
         }
     }
 
+    // Restore all elytras to original damage value
     public void restoreElytras(Player player) {
         boolean restoredAny = false;
         for (int i = 0; i < player.getInventory().getSize(); i++) {
@@ -65,5 +74,16 @@ public class ElytraManager {
             player.sendMessage("§aAll your Elytras have been restored.");
         }
     }
+
+    // Restore elytras that are dropped due to death
+    public void restoreOnDeath(List<ItemStack> drops) {
+        for (ItemStack drop : drops) {
+            if (DamageUtil.isElytra(drop)) {
+                DamageUtil.setOriginalDamage(drop);
+                DamageUtil.clearOriginalDamage(drop);
+            }
+        }
+    }
+
 
 }

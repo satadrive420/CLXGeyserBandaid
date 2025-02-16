@@ -1,6 +1,8 @@
-package gg.corn.CLXGeyserBandaid;
+package gg.corn.CLXGeyserBandaid.listeners;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import gg.corn.CLXGeyserBandaid.managers.ElytraManager;
+import gg.corn.CLXGeyserBandaid.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
