@@ -54,7 +54,7 @@ public class ElytraManager {
             }
         }
         if (anyDisabled) {
-            player.sendMessage("§cAll your Elytras have been disabled while you are in combat.");
+            player.sendMessage("§cAll your Elytras have been disabled.");
         }
     }
 

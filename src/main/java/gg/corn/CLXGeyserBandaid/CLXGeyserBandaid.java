@@ -1,8 +1,6 @@
 package gg.corn.CLXGeyserBandaid;
 
-import gg.corn.CLXGeyserBandaid.listeners.CombatListener;
-import gg.corn.CLXGeyserBandaid.listeners.InventoryListener;
-import gg.corn.CLXGeyserBandaid.listeners.PlayerListener;
+import gg.corn.CLXGeyserBandaid.listeners.*;
 import gg.corn.CLXGeyserBandaid.managers.ElytraManager;
 import gg.corn.CLXGeyserBandaid.managers.PlayerManager;
 import gg.corn.CLXGeyserBandaid.util.DamageUtil;
@@ -41,6 +39,8 @@ public class CLXGeyserBandaid extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new CombatListener(this, elytraManager), this);
         Bukkit.getPluginManager().registerEvents(new InventoryListener(this, combatLogX, elytraManager), this);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new LevitationListener(this, elytraManager), this);
+        getServer().getPluginManager().registerEvents(new WaterListener(this, elytraManager), this);
 
         getLogger().info("CLXGeyserBandaid has been enabled successfully!");
     }
