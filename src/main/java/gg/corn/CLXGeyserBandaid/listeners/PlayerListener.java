@@ -14,7 +14,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        if (PlayerManager.isBedrockPlayer(player) && PlayerManager.isInCombat(player)) {
+        if (PlayerManager.shouldApplyFixes(player) && PlayerManager.isInCombat(player)) {
             ElytraManager.getInstance().restoreOnDeath(event.getDrops());
         }
     }
@@ -23,7 +23,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (PlayerManager.isBedrockPlayer(player)) {
+        if (PlayerManager.shouldApplyFixes(player)) {
             ElytraManager.getInstance().restoreElytras(player);
         }
     }

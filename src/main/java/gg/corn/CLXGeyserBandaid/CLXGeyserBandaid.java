@@ -1,5 +1,6 @@
 package gg.corn.CLXGeyserBandaid;
 
+import gg.corn.CLXGeyserBandaid.commands.ReloadCommand;
 import gg.corn.CLXGeyserBandaid.listeners.*;
 import gg.corn.CLXGeyserBandaid.managers.ElytraManager;
 import gg.corn.CLXGeyserBandaid.managers.PlayerManager;
@@ -14,6 +15,9 @@ public class CLXGeyserBandaid extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        // Load and save default config
+        saveDefaultConfig();
 
         DamageUtil.init(this);
         new PlayerManager(this);
@@ -40,7 +44,9 @@ public class CLXGeyserBandaid extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InventoryListener(this, combatLogX, elytraManager), this);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new LevitationListener(this, elytraManager), this);
-        getServer().getPluginManager().registerEvents(new WaterListener(this, elytraManager), this);
+
+        // Register reload command
+        getCommand("clxgeyserbanaid").setExecutor(new ReloadCommand(this));
 
         getLogger().info("CLXGeyserBandaid has been enabled successfully!");
     }

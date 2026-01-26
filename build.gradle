@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'gg.corn'
-version = '1.1'
+version = '1.2'
 
 repositories {
     mavenCentral()
@@ -26,9 +26,9 @@ repositories {
 
 dependencies {
     compileOnly("com.github.sirblobman.api:core:2.9-SNAPSHOT")
-    compileOnly("com.github.sirblobman.combatlogx:api:11.4-SNAPSHOT")
+    compileOnly("com.github.sirblobman.combatlogx:api:11.6-SNAPSHOT")
     compileOnly('org.geysermc.floodgate:api:2.2.3-SNAPSHOT')
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
 }
 
 def targetJavaVersion = 21

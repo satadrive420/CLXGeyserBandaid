@@ -1,0 +1,10 @@
+# CLXGeyserBandaid Configuration
+
+# Target Players Setting
+# Controls which players the plugin's combat fixes apply to
+# Options:
+#   bedrock-only - Only apply fixes to Bedrock players (connected via Floodgate)
+#   all          - Apply fixes to all players (both Java and Bedrock)
+# Default: bedrock-only
+target-players: bedrock-only
+

@@ -27,21 +27,21 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
-        if (!PlayerManager.isBedrockPlayer(player)) return;
+        if (!PlayerManager.shouldApplyFixes(player)) return;
         Bukkit.getScheduler().runTaskLater(plugin, () -> handleElytraInventory(player), 1L);
     }
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
-        if (!PlayerManager.isBedrockPlayer(player)) return;
+        if (!PlayerManager.shouldApplyFixes(player)) return;
         Bukkit.getScheduler().runTaskLater(plugin, () -> handleElytraInventory(player), 1L);
     }
 
     @EventHandler
     public void onItemPickup(EntityPickupItemEvent event){
         if (!(event.getEntity() instanceof Player player)) return;
-        if (!PlayerManager.isBedrockPlayer(player)) return;
+        if (!PlayerManager.shouldApplyFixes(player)) return;
         Bukkit.getScheduler().runTaskLater(plugin, () -> handleElytraInventory(player), 1L);
     }
 

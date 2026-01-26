@@ -1,8 +1,18 @@
 name: CLXGeyserBandaid
-version: '1.1'
+version: '1.2'
 main: gg.corn.CLXGeyserBandaid.CLXGeyserBandaid
 api-version: '1.21'
 depend:
   - CombatLogX
   - floodgate
 description: Blocks elytra flight for Bedrock players connected through Floodgate.
+commands:
+  clxgeyserbanaid:
+    description: Reload the CLXGeyserBandaid configuration
+    usage: /clxgeyserbanaid reload
+    aliases: [clxgb, geyserbanaid]
+    permission: clxgeyserbandaid.reload
+permissions:
+  clxgeyserbandaid.reload:
+    description: Allows reloading the plugin configuration
+    default: op

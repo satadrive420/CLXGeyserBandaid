@@ -22,6 +22,29 @@ public class PlayerManager {
         }
     }
 
+    /**
+     * Determines if the plugin's fixes should be applied to the given player.
+     * Checks the config setting to decide whether to target only Bedrock players or all players.
+     *
+     * @param player The player to check
+     * @return true if fixes should be applied, false otherwise
+     */
+    public static boolean shouldApplyFixes(Player player) {
+        if (plugin == null) {
+            return false;
+        }
+
+        String targetPlayers = plugin.getConfig().getString("target-players", "bedrock-only");
+
+        if ("all".equalsIgnoreCase(targetPlayers)) {
+            // Apply fixes to all players
+            return true;
+        } else {
+            // Default: bedrock-only - only apply to Bedrock players
+            return isBedrockPlayer(player);
+        }
+    }
+
     public static void setCombatManager(ICombatManager cm) {
         combatManager = cm;
     }

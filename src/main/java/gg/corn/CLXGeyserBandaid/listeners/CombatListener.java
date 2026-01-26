@@ -24,14 +24,14 @@ public class CombatListener implements Listener {
     @EventHandler
     public void onPlayerTag(PlayerTagEvent event) {
         Player player = event.getPlayer();
-        if (!PlayerManager.isBedrockPlayer(player)) return;
+        if (!PlayerManager.shouldApplyFixes(player)) return;
         elytraManager.disableElytras(player);
     }
 
     @EventHandler
     public void onPlayerUntag(PlayerUntagEvent event) {
         Player player = event.getPlayer();
-        if (!PlayerManager.isBedrockPlayer(player)) return;
+        if (!PlayerManager.shouldApplyFixes(player)) return;
         Bukkit.getScheduler().runTaskLater(plugin, () -> elytraManager.restoreElytras(player), 2L);
     }
 
