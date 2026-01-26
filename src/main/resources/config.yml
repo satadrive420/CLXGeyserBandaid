@@ -8,3 +8,8 @@
 # Default: bedrock-only
 target-players: bedrock-only
 
+# Block Mending on Elytras in Combat
+# Prevents mending enchantment from repairing elytras while a player is in combat
+# Default: true
+block-elytra-mending-in-combat: true
+

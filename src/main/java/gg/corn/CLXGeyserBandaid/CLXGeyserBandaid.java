@@ -44,6 +44,7 @@ public class CLXGeyserBandaid extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InventoryListener(this, combatLogX, elytraManager), this);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new LevitationListener(this, elytraManager), this);
+        Bukkit.getPluginManager().registerEvents(new MendingListener(this), this);
 
         // Register reload command
         getCommand("clxgeyserbanaid").setExecutor(new ReloadCommand(this));

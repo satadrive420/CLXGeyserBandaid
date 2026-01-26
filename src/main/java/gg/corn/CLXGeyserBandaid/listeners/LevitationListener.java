@@ -25,8 +25,8 @@ public class LevitationListener implements Listener {
         // Only proceed if the affected entity is a player.
         if (!(event.getEntity() instanceof Player player)) return;
 
-        // Only process players based on config setting.
-        if (!PlayerManager.shouldApplyFixes(player)) return;
+        // This should only target bedrock players.
+        if (!PlayerManager.isBedrockPlayer(player)) return;
 
         // Check if the potion effect change is for levitation.
         if (!PotionEffectType.LEVITATION.equals(event.getModifiedType())) return;

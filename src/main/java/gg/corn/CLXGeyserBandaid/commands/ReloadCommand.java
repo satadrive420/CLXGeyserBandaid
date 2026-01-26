@@ -31,6 +31,11 @@ public class ReloadCommand implements CommandExecutor {
             sender.sendMessage(Component.text("Target players: ", NamedTextColor.GRAY)
                     .append(Component.text(targetPlayers, NamedTextColor.YELLOW)));
 
+            boolean blockMending = plugin.getConfig().getBoolean("block-elytra-mending-in-combat", true);
+            sender.sendMessage(Component.text("Block elytra mending in combat: ", NamedTextColor.GRAY)
+                    .append(Component.text(blockMending ? "enabled" : "disabled",
+                            blockMending ? NamedTextColor.GREEN : NamedTextColor.RED)));
+
             return true;
         } catch (Exception e) {
             sender.sendMessage(Component.text("Error reloading config: " + e.getMessage(), NamedTextColor.RED));
